@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Mark Attendance</title>
+    <title>Student Management</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #dff0ff;
+            background-color: #f2f2f2;
+            margin: 0;
         }
 
         .navbar {
-            background: #343a40;
+            background-color: #343a40;
             color: white;
-            padding: 18px 30px;
-
+            padding: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,538 +31,281 @@
 
         .container {
             width: 90%;
-            max-width: 1000px;
             margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
         }
 
-        .title {
+        h1 {
             text-align: center;
-        }
-
-        .title h1 {
             color: #222;
         }
 
-        .title p {
-            color: #555;
+        .subtitle {
+            text-align: center;
+            color: #666;
         }
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-
-            box-shadow:
-                0 5px 20px rgba(0,0,0,0.12);
-        }
-
-        .controls {
+        .form-area {
             display: flex;
             gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
+            justify-content: center;
+            margin: 30px 0;
         }
 
-        label {
-            font-weight: bold;
-        }
-
-        input[type="date"] {
+        input {
             padding: 12px;
+            width: 40%;
             border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 5px;
         }
 
         button {
-            border: none;
-            border-radius: 6px;
             padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 15px;
         }
 
-        .save-btn {
-            background: #182f63;
+        .add-btn {
+            background-color: #28a745;
             color: white;
         }
 
-        .save-btn:hover {
-            background: #0d214d;
-        }
-
-        .back-btn {
-            background: #2671d9;
+        .delete-btn {
+            background-color: #dc3545;
             color: white;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th {
-            background: #65a9e8;
-            color: #222;
-            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 14px;
         }
 
         td {
-            padding: 13px;
+            padding: 14px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
-        tr:hover {
-            background: #f5f5f5;
-        }
-
-        .radio-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .radio-group label {
-            font-weight: normal;
-            cursor: pointer;
-        }
-
         .empty {
             text-align: center;
-            padding: 30px;
             color: #777;
+            padding: 20px;
         }
-
-        .message {
-            text-align: center;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            display: none;
-        }
-
-        @media (max-width: 700px) {
-
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .navbar a {
-                margin: 5px;
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .controls button {
-                width: 100%;
-            }
-
-            table {
-                font-size: 13px;
-            }
-        }
-
     </style>
 </head>
-
 
 <body>
 
     <div class="navbar">
-
-        <h2>
-            Student Attendance Management System
-        </h2>
+        <h2>Student Attendance Management System</h2>
 
         <div>
-            <a href="index.html">Dashboard</a>
+            <a href="dashboard.html">Dashboard</a>
             <a href="students.html">Students</a>
             <a href="attendance.html">Attendance</a>
             <a href="reports.html">Reports</a>
         </div>
-
     </div>
-
 
     <div class="container">
 
-        <div class="title">
+        <h1>Student Management</h1>
 
-            <h1>Mark Attendance</h1>
+        <p class="subtitle">
+            Add and manage student details
+        </p>
 
-            <p>
-                Select the date and mark students as Present or Absent.
-            </p>
+        <div class="form-area">
 
-        </div>
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter student name"
+            >
 
+            <input
+                type="text"
+                id="rollNumber"
+                placeholder="Enter roll number"
+            >
 
-        <div class="card">
-
-            <div class="controls">
-
-                <label for="attendanceDate">
-                    Date:
-                </label>
-
-                <input
-                    type="date"
-                    id="attendanceDate"
-                >
-
-                <button
-                    class="save-btn"
-                    onclick="saveAttendance()">
-                    Save Attendance
-                </button>
-
-                <button
-                    class="back-btn"
-                    onclick="goBack()">
-                    Back to Dashboard
-                </button>
-
-            </div>
-
-
-            <div
-                id="message"
-                class="message">
-            </div>
-
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>S.No</th>
-                        <th>Student Name</th>
-                        <th>Roll Number</th>
-                        <th>Attendance</th>
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="attendanceTable">
-                </tbody>
-
-            </table>
+            <button class="add-btn" onclick="addStudent()">
+                Add Student
+            </button>
 
         </div>
+
+        <h2>Student List</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable">
+            </tbody>
+
+        </table>
 
     </div>
 
 
-    <script>
+<script>
 
-        // Get students saved from students.html
-        let students = JSON.parse(
-            localStorage.getItem("students")
-        ) || [];
+    // Load students from browser storage
+    let students = JSON.parse(localStorage.getItem("students")) || [];
 
 
-        // Attendance records
-        let attendanceRecords = JSON.parse(
-            localStorage.getItem("attendanceRecords")
-        ) || {};
+    // Add student
+    function addStudent() {
+
+        let name = document
+            .getElementById("studentName")
+            .value
+            .trim();
+
+        let roll = document
+            .getElementById("rollNumber")
+            .value
+            .trim();
 
 
-        // Set today's date
-        function setToday() {
+        if (name === "" || roll === "") {
 
-            let today = new Date();
+            alert("Please enter student name and roll number");
 
-            let year = today.getFullYear();
-
-            let month = String(
-                today.getMonth() + 1
-            ).padStart(2, "0");
-
-            let day = String(
-                today.getDate()
-            ).padStart(2, "0");
-
-
-            document.getElementById(
-                "attendanceDate"
-            ).value = `${year}-${month}-${day}`;
+            return;
         }
 
 
-        // Display students
-        function displayAttendance() {
+        // Check duplicate roll number
+        let existingStudent = students.find(function(student) {
 
-            // Reload latest student list
-            students = JSON.parse(
-                localStorage.getItem("students")
-            ) || [];
+            return student.roll === roll;
 
-
-            let table =
-                document.getElementById(
-                    "attendanceTable"
-                );
+        });
 
 
-            table.innerHTML = "";
+        if (existingStudent) {
 
+            alert("Roll number already exists!");
 
-            if (students.length === 0) {
-
-                table.innerHTML = `
-                    <tr>
-                        <td
-                            colspan="4"
-                            class="empty">
-
-                            No students found.<br>
-                            Please add students
-                            from the Students page.
-
-                        </td>
-                    </tr>
-                `;
-
-                return;
-            }
-
-
-            let date =
-                document.getElementById(
-                    "attendanceDate"
-                ).value;
-
-
-            students.forEach(
-                function(student, index) {
-
-                    let row =
-                        document.createElement("tr");
-
-
-                    let savedStatus =
-                        "";
-
-
-                    if (
-                        attendanceRecords[date] &&
-                        attendanceRecords[date][student.roll]
-                    ) {
-
-                        savedStatus =
-                            attendanceRecords[
-                                date
-                            ][student.roll];
-
-                    }
-
-
-                    let presentChecked =
-                        savedStatus === "Present"
-                            ? "checked"
-                            : "";
-
-
-                    let absentChecked =
-                        savedStatus === "Absent"
-                            ? "checked"
-                            : "";
-
-
-                    row.innerHTML = `
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-                            ${student.name}
-                        </td>
-
-                        <td>
-                            ${student.roll}
-                        </td>
-
-                        <td>
-
-                            <div class="radio-group">
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="attendance_${student.roll}"
-                                        value="Present"
-                                        ${presentChecked}>
-                                    Present
-                                </label>
-
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="attendance_${student.roll}"
-                                        value="Absent"
-                                        ${absentChecked}>
-                                    Absent
-                                </label>
-
-                            </div>
-
-                        </td>
-
-                    `;
-
-
-                    table.appendChild(row);
-
-                }
-            );
-
+            return;
         }
 
 
-        // Save attendance
-        function saveAttendance() {
+        // Add student
+        students.push({
 
-            let date =
-                document.getElementById(
-                    "attendanceDate"
-                ).value;
+            name: name,
+            roll: roll
 
-
-            if (!date) {
-
-                alert("Please select a date.");
-
-                return;
-            }
+        });
 
 
-            // Make sure students are available
-            students = JSON.parse(
-                localStorage.getItem("students")
-            ) || [];
-
-
-            if (students.length === 0) {
-
-                alert(
-                    "No students found. Please add students first."
-                );
-
-                return;
-            }
-
-
-            let dailyAttendance = {};
-
-
-            for (
-                let i = 0;
-                i < students.length;
-                i++
-            ) {
-
-                let student = students[i];
-
-
-                let selected =
-                    document.querySelector(
-                        `input[name="attendance_${student.roll}"]:checked`
-                    );
-
-
-                if (!selected) {
-
-                    alert(
-                        "Please mark attendance for all students."
-                    );
-
-                    return;
-                }
-
-
-                dailyAttendance[
-                    student.roll
-                ] = selected.value;
-
-            }
-
-
-            attendanceRecords[date] =
-                dailyAttendance;
-
-
-            // IMPORTANT: Save attendance
-            localStorage.setItem(
-                "attendanceRecords",
-                JSON.stringify(
-                    attendanceRecords
-                )
-            );
-
-
-            showMessage(
-                "Attendance saved successfully!"
-            );
-
-        }
-
-
-        // Show message
-        function showMessage(text) {
-
-            let message =
-                document.getElementById(
-                    "message"
-                );
-
-
-            message.innerText = text;
-
-            message.style.display = "block";
-
-
-            setTimeout(function() {
-
-                message.style.display =
-                    "none";
-
-            }, 2500);
-        }
-
-
-        // Date changed
-        document.getElementById(
-            "attendanceDate"
-        ).addEventListener(
-            "change",
-            displayAttendance
+        // IMPORTANT:
+        // Save students permanently
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
         );
 
 
-        // Back
-        function goBack() {
+        // Display students
+        displayStudents();
 
-            window.location.href =
-                "index.html";
+
+        // Clear inputs
+        document.getElementById("studentName").value = "";
+        document.getElementById("rollNumber").value = "";
+    }
+
+
+    // Display students
+    function displayStudents() {
+
+        let table = document.getElementById("studentTable");
+
+        table.innerHTML = "";
+
+
+        if (students.length === 0) {
+
+            table.innerHTML =
+                '<tr><td colspan="4" class="empty">No students found.</td></tr>';
+
+            return;
         }
 
 
-        // Start page
-        setToday();
+        students.forEach(function(student, index) {
 
-        displayAttendance();
+            let row = document.createElement("tr");
 
-    </script>
+
+            row.innerHTML =
+
+                "<td>" + (index + 1) + "</td>" +
+
+                "<td>" + student.name + "</td>" +
+
+                "<td>" + student.roll + "</td>" +
+
+                "<td>" +
+
+                '<button class="delete-btn" onclick="deleteStudent(' +
+                index +
+                ')">Delete</button>' +
+
+                "</td>";
+
+
+            table.appendChild(row);
+
+        });
+    }
+
+
+    // Delete student
+    function deleteStudent(index) {
+
+        if (confirm("Are you sure you want to delete this student?")) {
+
+            students.splice(index, 1);
+
+
+            // Update localStorage
+            localStorage.setItem(
+                "students",
+                JSON.stringify(students)
+            );
+
+
+            displayStudents();
+        }
+    }
+
+
+    // Show students when page opens
+    displayStudents();
+
+</script>
 
 </body>
 </html>
