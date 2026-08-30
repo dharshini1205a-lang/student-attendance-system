@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Attendance Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: white;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .logout {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        .welcome {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: white;
+            width: 200px;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .open-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>Student Attendance System</h2>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+    </div>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h1>Welcome Admin 👋</h1>
+            <p>Student Attendance Management Dashboard</p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Attendance</h3>
+                <p>Mark student attendance</p>
+
+                <button class="open-btn" onclick="openAttendance()">
+                    Open
+                </button>
+            </div>
+
+            <div class="card">
+                <h3>Students</h3>
+                <p>Manage student details</p>
+
+                <button class="open-btn">
+                    View
+                </button>
+            </div>
+
+            <div class="card">
+                <h3>Reports</h3>
+                <p>View attendance reports</p>
+
+                <button class="open-btn">
+                    View
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function openAttendance() {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            window.location.href = "login.html";
+        }
+
+    </script>
+
+</body>
+</html>
