@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mark Attendance</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background: #dff0ff;
         }
 
         .navbar {
-            background-color: #343a40;
+            background: #343a40;
             color: white;
-            padding: 18px;
+            padding: 18px 30px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -23,201 +32,544 @@
             margin: 0;
         }
 
-        .back-btn {
-            background-color: #007bff;
+        .navbar a {
             color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 5px;
-            cursor: pointer;
+            text-decoration: none;
+            margin-left: 25px;
         }
 
         .container {
-            width: 80%;
-            margin: 30px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
         }
 
-        h1 {
+        .title {
             text-align: center;
         }
 
-        input {
-            width: 45%;
-            padding: 12px;
-            margin: 8px;
-            box-sizing: border-box;
+        .title h1 {
+            color: #222;
         }
 
-        .add-btn {
-            padding: 12px 25px;
-            background-color: #28a745;
-            color: white;
+        .title p {
+            color: #555;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="date"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            padding: 12px 20px;
             cursor: pointer;
+            font-size: 15px;
+        }
+
+        .save-btn {
+            background: #182f63;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #0d214d;
+        }
+
+        .back-btn {
+            background: #2671d9;
+            color: white;
         }
 
         table {
             width: 100%;
-            margin-top: 30px;
             border-collapse: collapse;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-
         th {
-            background-color: #007bff;
-            color: white;
+            background: #65a9e8;
+            color: #222;
+            padding: 15px;
         }
 
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 4px;
+        td {
+            padding: 13px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
             cursor: pointer;
         }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar a {
+                margin: 5px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .controls button {
+                width: 100%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+        }
+
     </style>
 </head>
+
 
 <body>
 
     <div class="navbar">
 
-        <h2>Student Attendance System</h2>
+        <h2>
+            Student Attendance Management System
+        </h2>
 
-        <button class="back-btn" onclick="goBack()">
-            Dashboard
-        </button>
+        <div>
+            <a href="index.html">Dashboard</a>
+            <a href="students.html">Students</a>
+            <a href="attendance.html">Attendance</a>
+            <a href="reports.html">Reports</a>
+        </div>
 
     </div>
+
 
     <div class="container">
 
-        <h1>Student Management</h1>
+        <div class="title">
 
-        <p style="text-align:center;">
-            Add and manage student details
-        </p>
+            <h1>Mark Attendance</h1>
 
-        <div style="text-align:center;">
-
-            <input
-                type="text"
-                id="studentName"
-                placeholder="Enter student name"
-            >
-
-            <input
-                type="text"
-                id="rollNumber"
-                placeholder="Enter roll number"
-            >
-
-            <br>
-
-            <button class="add-btn" onclick="addStudent()">
-                Add Student
-            </button>
+            <p>
+                Select the date and mark students as Present or Absent.
+            </p>
 
         </div>
 
-        <h2>Student List</h2>
 
-        <table>
+        <div class="card">
 
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Student Name</th>
-                    <th>Roll Number</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <div class="controls">
 
-            <tbody id="studentTable">
-            </tbody>
+                <label for="attendanceDate">
+                    Date:
+                </label>
 
-        </table>
+                <input
+                    type="date"
+                    id="attendanceDate"
+                >
+
+                <button
+                    class="save-btn"
+                    onclick="saveAttendance()">
+                    Save Attendance
+                </button>
+
+                <button
+                    class="back-btn"
+                    onclick="goBack()">
+                    Back to Dashboard
+                </button>
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>S.No</th>
+                        <th>Student Name</th>
+                        <th>Roll Number</th>
+                        <th>Attendance</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="attendanceTable">
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
+
     <script>
 
-        let students = [];
+        // Get students saved from students.html
+        let students = JSON.parse(
+            localStorage.getItem("students")
+        ) || [];
 
-        function addStudent() {
 
-            let name =
-                document.getElementById("studentName").value;
+        // Attendance records
+        let attendanceRecords = JSON.parse(
+            localStorage.getItem("attendanceRecords")
+        ) || {};
 
-            let roll =
-                document.getElementById("rollNumber").value;
 
-            if (name === "" || roll === "") {
+        // Set today's date
+        function setToday() {
 
-                alert("Please enter student name and roll number");
+            let today = new Date();
+
+            let year = today.getFullYear();
+
+            let month = String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
+
+            let day = String(
+                today.getDate()
+            ).padStart(2, "0");
+
+
+            document.getElementById(
+                "attendanceDate"
+            ).value = `${year}-${month}-${day}`;
+        }
+
+
+        // Display students
+        function displayAttendance() {
+
+            // Reload latest student list
+            students = JSON.parse(
+                localStorage.getItem("students")
+            ) || [];
+
+
+            let table =
+                document.getElementById(
+                    "attendanceTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+            if (students.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="4"
+                            class="empty">
+
+                            No students found.<br>
+                            Please add students
+                            from the Students page.
+
+                        </td>
+                    </tr>
+                `;
 
                 return;
             }
 
-            students.push({
-                name: name,
-                roll: roll
-            });
 
-            displayStudents();
+            let date =
+                document.getElementById(
+                    "attendanceDate"
+                ).value;
 
-            document.getElementById("studentName").value = "";
-            document.getElementById("rollNumber").value = "";
+
+            students.forEach(
+                function(student, index) {
+
+                    let row =
+                        document.createElement("tr");
+
+
+                    let savedStatus =
+                        "";
+
+
+                    if (
+                        attendanceRecords[date] &&
+                        attendanceRecords[date][student.roll]
+                    ) {
+
+                        savedStatus =
+                            attendanceRecords[
+                                date
+                            ][student.roll];
+
+                    }
+
+
+                    let presentChecked =
+                        savedStatus === "Present"
+                            ? "checked"
+                            : "";
+
+
+                    let absentChecked =
+                        savedStatus === "Absent"
+                            ? "checked"
+                            : "";
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${student.name}
+                        </td>
+
+                        <td>
+                            ${student.roll}
+                        </td>
+
+                        <td>
+
+                            <div class="radio-group">
+
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="attendance_${student.roll}"
+                                        value="Present"
+                                        ${presentChecked}>
+                                    Present
+                                </label>
+
+
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="attendance_${student.roll}"
+                                        value="Absent"
+                                        ${absentChecked}>
+                                    Absent
+                                </label>
+
+                            </div>
+
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(row);
+
+                }
+            );
+
         }
 
-        function displayStudents() {
 
-            let table =
-                document.getElementById("studentTable");
+        // Save attendance
+        function saveAttendance() {
 
-            table.innerHTML = "";
+            let date =
+                document.getElementById(
+                    "attendanceDate"
+                ).value;
 
-            students.forEach(function(student, index) {
 
-                let row = document.createElement("tr");
+            if (!date) {
 
-                row.innerHTML =
-                    "<td>" + (index + 1) + "</td>" +
-                    "<td>" + student.name + "</td>" +
-                    "<td>" + student.roll + "</td>" +
-                    "<td>" +
-                    "<button class='delete-btn' onclick='deleteStudent(" +
-                    index +
-                    ")'>Delete</button>" +
-                    "</td>";
+                alert("Please select a date.");
 
-                table.appendChild(row);
+                return;
+            }
 
-            });
+
+            // Make sure students are available
+            students = JSON.parse(
+                localStorage.getItem("students")
+            ) || [];
+
+
+            if (students.length === 0) {
+
+                alert(
+                    "No students found. Please add students first."
+                );
+
+                return;
+            }
+
+
+            let dailyAttendance = {};
+
+
+            for (
+                let i = 0;
+                i < students.length;
+                i++
+            ) {
+
+                let student = students[i];
+
+
+                let selected =
+                    document.querySelector(
+                        `input[name="attendance_${student.roll}"]:checked`
+                    );
+
+
+                if (!selected) {
+
+                    alert(
+                        "Please mark attendance for all students."
+                    );
+
+                    return;
+                }
+
+
+                dailyAttendance[
+                    student.roll
+                ] = selected.value;
+
+            }
+
+
+            attendanceRecords[date] =
+                dailyAttendance;
+
+
+            // IMPORTANT: Save attendance
+            localStorage.setItem(
+                "attendanceRecords",
+                JSON.stringify(
+                    attendanceRecords
+                )
+            );
+
+
+            showMessage(
+                "Attendance saved successfully!"
+            );
+
         }
 
-        function deleteStudent(index) {
 
-            students.splice(index, 1);
+        // Show message
+        function showMessage(text) {
 
-            displayStudents();
+            let message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            message.innerText = text;
+
+            message.style.display = "block";
+
+
+            setTimeout(function() {
+
+                message.style.display =
+                    "none";
+
+            }, 2500);
         }
 
+
+        // Date changed
+        document.getElementById(
+            "attendanceDate"
+        ).addEventListener(
+            "change",
+            displayAttendance
+        );
+
+
+        // Back
         function goBack() {
 
-            window.location.href = "dashboard.html";
-
+            window.location.href =
+                "index.html";
         }
+
+
+        // Start page
+        setToday();
+
+        displayAttendance();
 
     </script>
 
