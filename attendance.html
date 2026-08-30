@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Mark Attendance</title>
 
     <style>
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #dff0ff;
+            background-color: #eaf4ff;
+            margin: 0;
         }
 
         .navbar {
-            background: #343a40;
+            background-color: #343a40;
             color: white;
-            padding: 18px 30px;
-
+            padding: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,69 +33,53 @@
 
         .container {
             width: 90%;
-            max-width: 1000px;
             margin: 40px auto;
         }
 
-        .title {
+        h1 {
             text-align: center;
-        }
-
-        .title h1 {
             color: #222;
         }
 
-        .title p {
+        .subtitle {
+            text-align: center;
             color: #555;
         }
 
-        .card {
+        .box {
             background: white;
             padding: 30px;
-            border-radius: 15px;
-
-            box-shadow:
-                0 5px 20px rgba(0,0,0,0.12);
+            border-radius: 10px;
+            margin-top: 25px;
         }
 
-        .controls {
+        .top-area {
             display: flex;
-            gap: 15px;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 25px;
         }
 
-        label {
-            font-weight: bold;
-        }
-
         input[type="date"] {
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 5px;
         }
 
         button {
+            padding: 11px 18px;
             border: none;
-            border-radius: 6px;
-            padding: 12px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 15px;
         }
 
         .save-btn {
-            background: #182f63;
+            background-color: #343a70;
             color: white;
         }
 
-        .save-btn:hover {
-            background: #0d214d;
-        }
-
         .back-btn {
-            background: #2671d9;
+            background-color: #2864c7;
             color: white;
         }
 
@@ -112,72 +89,30 @@
         }
 
         th {
-            background: #65a9e8;
-            color: #222;
-            padding: 15px;
+            background-color: #2196f3;
+            color: white;
+            padding: 14px;
         }
 
         td {
-            padding: 13px;
+            padding: 14px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
-        tr:hover {
-            background: #f5f5f5;
+        select {
+            padding: 8px;
+            border-radius: 5px;
         }
 
-        .radio-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .radio-group label {
-            font-weight: normal;
-            cursor: pointer;
-        }
-
-        .empty {
+        .no-students {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             color: #777;
         }
 
-        .message {
-            text-align: center;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            display: none;
-        }
-
-        @media (max-width: 700px) {
-
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .navbar a {
-                margin: 5px;
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .controls button {
-                width: 100%;
-            }
-
-            table {
-                font-size: 13px;
-            }
-        }
-
     </style>
+
 </head>
 
 
@@ -185,15 +120,18 @@
 
     <div class="navbar">
 
-        <h2>
-            Student Attendance Management System
-        </h2>
+        <h2>Student Attendance Management System</h2>
 
         <div>
-            <a href="index.html">Dashboard</a>
+
+            <a href="dashboard.html">Dashboard</a>
+
             <a href="students.html">Students</a>
+
             <a href="attendance.html">Attendance</a>
+
             <a href="reports.html">Reports</a>
+
         </div>
 
     </div>
@@ -201,23 +139,19 @@
 
     <div class="container">
 
-        <div class="title">
+        <h1>Mark Attendance</h1>
 
-            <h1>Mark Attendance</h1>
-
-            <p>
-                Select the date and mark students as Present or Absent.
-            </p>
-
-        </div>
+        <p class="subtitle">
+            Select the date and mark students as Present or Absent.
+        </p>
 
 
-        <div class="card">
+        <div class="box">
 
-            <div class="controls">
+            <div class="top-area">
 
-                <label for="attendanceDate">
-                    Date:
+                <label>
+                    <b>Date:</b>
                 </label>
 
                 <input
@@ -227,22 +161,18 @@
 
                 <button
                     class="save-btn"
-                    onclick="saveAttendance()">
+                    onclick="saveAttendance()"
+                >
                     Save Attendance
                 </button>
 
                 <button
                     class="back-btn"
-                    onclick="goBack()">
+                    onclick="goBack()"
+                >
                     Back to Dashboard
                 </button>
 
-            </div>
-
-
-            <div
-                id="message"
-                class="message">
             </div>
 
 
@@ -251,16 +181,22 @@
                 <thead>
 
                     <tr>
+
                         <th>S.No</th>
+
                         <th>Student Name</th>
+
                         <th>Roll Number</th>
+
                         <th>Attendance</th>
+
                     </tr>
 
                 </thead>
 
 
                 <tbody id="attendanceTable">
+
                 </tbody>
 
             </table>
@@ -270,308 +206,194 @@
     </div>
 
 
-    <script>
-
-        // Get students saved from students.html
-        let students = JSON.parse(
-            localStorage.getItem("students")
-        ) || [];
+<script>
 
 
-        // Attendance records
-        let attendanceRecords = JSON.parse(
-            localStorage.getItem("attendanceRecords")
-        ) || {};
+    // IMPORTANT:
+    // Read the SAME students saved by students.html
+
+    let students =
+        JSON.parse(localStorage.getItem("students")) || [];
 
 
-        // Set today's date
-        function setToday() {
+    // Set today's date
+    let today = new Date();
 
-            let today = new Date();
+    let year = today.getFullYear();
 
-            let year = today.getFullYear();
+    let month =
+        String(today.getMonth() + 1).padStart(2, "0");
 
-            let month = String(
-                today.getMonth() + 1
-            ).padStart(2, "0");
-
-            let day = String(
-                today.getDate()
-            ).padStart(2, "0");
+    let day =
+        String(today.getDate()).padStart(2, "0");
 
 
-            document.getElementById(
-                "attendanceDate"
-            ).value = `${year}-${month}-${day}`;
+    document.getElementById("attendanceDate").value =
+        year + "-" + month + "-" + day;
+
+
+    // Display students
+    function displayStudents() {
+
+        // Reload latest student data
+        students =
+            JSON.parse(localStorage.getItem("students")) || [];
+
+
+        let table =
+            document.getElementById("attendanceTable");
+
+
+        table.innerHTML = "";
+
+
+        if (students.length === 0) {
+
+            table.innerHTML =
+
+                '<tr>' +
+
+                '<td colspan="4" class="no-students">' +
+
+                'No students found.<br>' +
+
+                'Please add students from the Students page.' +
+
+                '</td>' +
+
+                '</tr>';
+
+            return;
         }
 
 
-        // Display students
-        function displayAttendance() {
-
-            // Reload latest student list
-            students = JSON.parse(
-                localStorage.getItem("students")
-            ) || [];
+        students.forEach(function(student, index) {
 
 
-            let table =
+            let row =
+                document.createElement("tr");
+
+
+            row.innerHTML =
+
+                "<td>" +
+
+                (index + 1) +
+
+                "</td>" +
+
+
+                "<td>" +
+
+                student.name +
+
+                "</td>" +
+
+
+                "<td>" +
+
+                student.roll +
+
+                "</td>" +
+
+
+                "<td>" +
+
+                '<select id="status-' +
+
+                index +
+
+                '">' +
+
+                '<option value="Present">Present</option>' +
+
+                '<option value="Absent">Absent</option>' +
+
+                '</select>' +
+
+                "</td>";
+
+
+            table.appendChild(row);
+
+        });
+
+    }
+
+
+    // Save attendance
+    function saveAttendance() {
+
+        let date =
+            document.getElementById("attendanceDate").value;
+
+
+        if (date === "") {
+
+            alert("Please select a date.");
+
+            return;
+        }
+
+
+        let attendance =
+            JSON.parse(
+                localStorage.getItem("attendance")
+            ) || {};
+
+
+        if (!attendance[date]) {
+
+            attendance[date] = {};
+
+        }
+
+
+        students.forEach(function(student, index) {
+
+            let status =
                 document.getElementById(
-                    "attendanceTable"
-                );
-
-
-            table.innerHTML = "";
-
-
-            if (students.length === 0) {
-
-                table.innerHTML = `
-                    <tr>
-                        <td
-                            colspan="4"
-                            class="empty">
-
-                            No students found.<br>
-                            Please add students
-                            from the Students page.
-
-                        </td>
-                    </tr>
-                `;
-
-                return;
-            }
-
-
-            let date =
-                document.getElementById(
-                    "attendanceDate"
+                    "status-" + index
                 ).value;
 
 
-            students.forEach(
-                function(student, index) {
+            attendance[date][student.roll] = {
 
-                    let row =
-                        document.createElement("tr");
+                name: student.name,
 
+                status: status
 
-                    let savedStatus =
-                        "";
+            };
 
+        });
 
-                    if (
-                        attendanceRecords[date] &&
-                        attendanceRecords[date][student.roll]
-                    ) {
 
-                        savedStatus =
-                            attendanceRecords[
-                                date
-                            ][student.roll];
-
-                    }
-
-
-                    let presentChecked =
-                        savedStatus === "Present"
-                            ? "checked"
-                            : "";
-
-
-                    let absentChecked =
-                        savedStatus === "Absent"
-                            ? "checked"
-                            : "";
-
-
-                    row.innerHTML = `
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-                            ${student.name}
-                        </td>
-
-                        <td>
-                            ${student.roll}
-                        </td>
-
-                        <td>
-
-                            <div class="radio-group">
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="attendance_${student.roll}"
-                                        value="Present"
-                                        ${presentChecked}>
-                                    Present
-                                </label>
-
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="attendance_${student.roll}"
-                                        value="Absent"
-                                        ${absentChecked}>
-                                    Absent
-                                </label>
-
-                            </div>
-
-                        </td>
-
-                    `;
-
-
-                    table.appendChild(row);
-
-                }
-            );
-
-        }
-
-
-        // Save attendance
-        function saveAttendance() {
-
-            let date =
-                document.getElementById(
-                    "attendanceDate"
-                ).value;
-
-
-            if (!date) {
-
-                alert("Please select a date.");
-
-                return;
-            }
-
-
-            // Make sure students are available
-            students = JSON.parse(
-                localStorage.getItem("students")
-            ) || [];
-
-
-            if (students.length === 0) {
-
-                alert(
-                    "No students found. Please add students first."
-                );
-
-                return;
-            }
-
-
-            let dailyAttendance = {};
-
-
-            for (
-                let i = 0;
-                i < students.length;
-                i++
-            ) {
-
-                let student = students[i];
-
-
-                let selected =
-                    document.querySelector(
-                        `input[name="attendance_${student.roll}"]:checked`
-                    );
-
-
-                if (!selected) {
-
-                    alert(
-                        "Please mark attendance for all students."
-                    );
-
-                    return;
-                }
-
-
-                dailyAttendance[
-                    student.roll
-                ] = selected.value;
-
-            }
-
-
-            attendanceRecords[date] =
-                dailyAttendance;
-
-
-            // IMPORTANT: Save attendance
-            localStorage.setItem(
-                "attendanceRecords",
-                JSON.stringify(
-                    attendanceRecords
-                )
-            );
-
-
-            showMessage(
-                "Attendance saved successfully!"
-            );
-
-        }
-
-
-        // Show message
-        function showMessage(text) {
-
-            let message =
-                document.getElementById(
-                    "message"
-                );
-
-
-            message.innerText = text;
-
-            message.style.display = "block";
-
-
-            setTimeout(function() {
-
-                message.style.display =
-                    "none";
-
-            }, 2500);
-        }
-
-
-        // Date changed
-        document.getElementById(
-            "attendanceDate"
-        ).addEventListener(
-            "change",
-            displayAttendance
+        // Save attendance permanently
+        localStorage.setItem(
+            "attendance",
+            JSON.stringify(attendance)
         );
 
 
-        // Back
-        function goBack() {
-
-            window.location.href =
-                "index.html";
-        }
+        alert("Attendance saved successfully!");
 
 
-        // Start page
-        setToday();
+    }
 
-        displayAttendance();
 
-    </script>
+    function goBack() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    // Display students when page opens
+    displayStudents();
+
+
+</script>
 
 </body>
 </html>
