@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Reports</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #333;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #243b64;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        /* REPORT SEARCH */
+
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .search-section h2 {
+            text-align: center;
+            color: #243b64;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #243b64;
+        }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #243b64;
+        }
+
+        /* TABLE */
+
+        .table-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .table-box h2 {
+            text-align: center;
+            color: #243b64;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #dce9f8;
+            color: #243b64;
+        }
+
+        .present {
+            color: green;
+            font-weight: bold;
+        }
+
+        .absent {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button,
+        .back-btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 5px;
+        }
+
+        .print-btn {
+            background: #243b64;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #162846;
+        }
+
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #b02a37;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #4aa3df;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #2588c5;
+        }
+
+        /* NO DATA */
+
+        .no-data {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+        }
+
+        /* PRINT */
+
+        @media print {
+
+            .search-section,
+            .buttons {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .card,
+            .table-box {
+                box-shadow: none;
+            }
+
+            .header {
+                color: black;
+                background: white;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            Student Attendance Management System
+        </h1>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SEARCH -->
+
+        <div class="search-section">
+
+            <h2>
+                Attendance Reports
+            </h2>
+
+            <input
+                type="text"
+                id="searchInput"
+                class="search-box"
+                placeholder="Search by student name or roll number..."
+            >
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+
+            <div class="card">
+
+                <h3>
+                    Present
+                </h3>
+
+                <p id="presentCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Absent
+                </h3>
+
+                <p id="absentCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Total Classes
+                </h3>
+
+                <p id="totalCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Percentage
+                </h3>
+
+                <p id="percentage">
+                    0%
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-box">
+
+            <h2>
+                Attendance Report
+            </h2>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Roll Number
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="reportTable">
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                id="noData"
+                class="no-data"
+                style="display:none;"
+            >
+                No attendance records found.
+            </div>
+
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <button
+                class="print-btn"
+                onclick="printReport()"
+            >
+                Print Report
+            </button>
+
+
+            <button
+                class="clear-btn"
+                onclick="clearSearch()"
+            >
+                Clear Search
+            </button>
+
+
+            <a
+                href="index.html"
+                class="back-btn"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+
+        /*
+         * GET ATTENDANCE DATA
+         */
+
+        function getAttendanceData() {
+
+
+            let allData = [];
+
+
+            const possibleKeys = [
+
+                "attendance",
+
+                "attendanceRecords",
+
+                "attendanceData",
+
+                "records",
+
+                "students"
+
+            ];
+
+
+            /*
+             * Check common localStorage keys
+             */
+
+            possibleKeys.forEach(function(key) {
+
+
+                const saved =
+                    localStorage.getItem(key);
+
+
+                if (saved) {
+
+
+                    try {
+
+
+                        const data =
+                            JSON.parse(saved);
+
+
+                        if (Array.isArray(data)) {
+
+                            allData =
+                                allData.concat(data);
+
+                        }
+
+
+                    }
+
+                    catch (error) {
+
+                        console.log(
+                            "Invalid data:",
+                            key
+                        );
+
+                    }
+
+                }
+
+            });
+
+
+            /*
+             * If data not found,
+             * check all localStorage items
+             */
+
+            if (allData.length === 0) {
+
+
+                for (
+                    let i = 0;
+                    i < localStorage.length;
+                    i++
+                ) {
+
+
+                    const key =
+                        localStorage.key(i);
+
+
+                    const saved =
+                        localStorage.getItem(key);
+
+
+                    try {
+
+
+                        const data =
+                            JSON.parse(saved);
+
+
+                        if (
+                            Array.isArray(data) &&
+                            data.length > 0
+                        ) {
+
+
+                            const first =
+                                data[0];
+
+
+                            if (
+                                first.name ||
+                                first.studentName ||
+                                first.roll ||
+                                first.rollNumber ||
+                                first.status
+                            ) {
+
+
+                                allData =
+                                    data;
+
+                                break;
+
+                            }
+
+                        }
+
+
+                    }
+
+                    catch (error) {
+
+                        // Ignore invalid values
+
+                    }
+
+                }
+
+            }
+
+
+            return allData;
+
+        }
+
+
+
+        /*
+         * NORMALIZE DATA
+         */
+
+        function normalizeRecord(record) {
+
+
+            return {
+
+
+                date:
+
+                    record.date ||
+
+                    record.attendanceDate ||
+
+                    record.day ||
+
+                    "-",
+
+
+
+                name:
+
+                    record.name ||
+
+                    record.studentName ||
+
+                    record.student ||
+
+                    "-",
+
+
+
+                roll:
+
+                    record.roll ||
+
+                    record.rollNumber ||
+
+                    record.rollNo ||
+
+                    "-",
+
+
+
+                status:
+
+                    record.status ||
+
+                    record.attendance ||
+
+                    "-"
+
+            };
+
+        }
+
+
+
+        /*
+         * LOAD DATA
+         */
+
+        let attendance =
+            getAttendanceData();
+
+
+
+        /*
+         * DISPLAY REPORT
+         */
+
+        function displayReport(data) {
+
+
+            const table =
+                document.getElementById(
+                    "reportTable"
+                );
+
+
+            const noData =
+                document.getElementById(
+                    "noData"
+                );
+
+
+            table.innerHTML = "";
+
+
+            let present = 0;
+
+            let absent = 0;
+
+
+
+            /*
+             * No records
+             */
+
+            if (data.length === 0) {
+
+                noData.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                noData.style.display =
+                    "none";
+
+            }
+
+
+
+            /*
+             * Create rows
+             */
+
+            data.forEach(function(rawRecord) {
+
+
+                const record =
+                    normalizeRecord(
+                        rawRecord
+                    );
+
+
+                const status =
+                    String(
+                        record.status
+                    ).toLowerCase();
+
+
+
+                if (status === "present") {
+
+                    present++;
+
+                }
+
+
+                if (status === "absent") {
+
+                    absent++;
+
+                }
+
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${record.date}
+                    </td>
+
+                    <td>
+                        ${record.name}
+                    </td>
+
+                    <td>
+                        ${record.roll}
+                    </td>
+
+                    <td class="${status}">
+                        ${record.status}
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+
+
+            /*
+             * UPDATE SUMMARY
+             */
+
+            document.getElementById(
+                "presentCount"
+            ).innerText = present;
+
+
+
+            document.getElementById(
+                "absentCount"
+            ).innerText = absent;
+
+
+
+            const total =
+                present + absent;
+
+
+
+            document.getElementById(
+                "totalCount"
+            ).innerText = total;
+
+
+
+            /*
+             * Percentage
+             */
+
+            let percentage = 0;
+
+
+            if (total > 0) {
+
+                percentage =
+                    (
+                        (present / total) *
+                        100
+                    ).toFixed(2);
+
+            }
+
+
+
+            document.getElementById(
+                "percentage"
+            ).innerText =
+                percentage + "%";
+
+        }
+
+
+
+        /*
+         * SEARCH
+         */
+
+        function searchStudent() {
+
+
+            const searchInput =
+                document.getElementById(
+                    "searchInput"
+                );
+
+
+            const searchText =
+                searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+
+            const filtered =
+                attendance.filter(
+                    function(rawRecord) {
+
+
+                        const record =
+                            normalizeRecord(
+                                rawRecord
+                            );
+
+
+                        const name =
+                            String(
+                                record.name
+                            ).toLowerCase();
+
+
+                        const roll =
+                            String(
+                                record.roll
+                            ).toLowerCase();
+
+
+
+                        return (
+
+                            name.includes(
+                                searchText
+                            )
+
+                            ||
+
+                            roll.includes(
+                                searchText
+                            )
+
+                        );
+
+                    }
+                );
+
+
+
+            displayReport(filtered);
+
+        }
+
+
+
+        /*
+         * SEARCH WHILE TYPING
+         */
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "input",
+                searchStudent
+            );
+
+
+
+        /*
+         * CLEAR SEARCH
+         */
+
+        function clearSearch() {
+
+
+            document.getElementById(
+                "searchInput"
+            ).value = "";
+
+
+            displayReport(
+                attendance
+            );
+
+        }
+
+
+
+        /*
+         * PRINT REPORT
+         */
+
+        function printReport() {
+
+            window.print();
+
+        }
+
+
+
+        /*
+         * INITIAL DISPLAY
+         */
+
+        displayReport(
+            attendance
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
